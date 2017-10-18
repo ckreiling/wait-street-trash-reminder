@@ -26,7 +26,7 @@ def post_message_to_group(text):
     :param text: message to be posted to group
     :return: status code of the request
     """
-    url = baseUrl + botPostMessageUrl + '/' + token
+    url = baseUrl + botPostMessageUrl + '?token=' + token
     json = {bot_id, text}
     response = requests.post(url, json=json)
     return response.status_code
