@@ -37,10 +37,10 @@ def remind_group():
     return post_message_to_group('Anyone taken the trash out?')
 
 
-schedule.every().monday.at('17:00').do(remind_group)
-schedule.every().tuesday.at('08:00').do(remind_group)
-schedule.every().thursday.at('17:00').do(remind_group)
-schedule.every().friday.at('08:00').do(remind_group)
+mondayEvening = schedule.every().monday.at('21:00').do(remind_group)
+tuesdayMorning = schedule.every().tuesday.at('12:00').do(remind_group)
+thursdayEvening = schedule.every().thursday.at('21:00').do(remind_group)
+fridayMorning = schedule.every().friday.at('12:00').do(remind_group)
 
 
 @app.route('/', methods=['POST'])
