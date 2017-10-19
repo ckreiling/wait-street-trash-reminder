@@ -34,7 +34,7 @@ def post_message_to_group(text):
 
 
 def remind_group():
-    return post_message_to_group('Y\'all taken the trash out yet?')
+    return post_message_to_group('Anyone taken the trash out?')
 
 
 schedule.every().monday.at('17:00').do(remind_group)
