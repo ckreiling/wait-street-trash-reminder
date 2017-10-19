@@ -63,7 +63,7 @@ def index():
     }
     """
 
-    return 200
+    return 'Got the message!'
 
 
 if __name__ == "__main__":
