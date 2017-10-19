@@ -1,6 +1,7 @@
 from flask import Flask
 import os
 import requests
+import schedule
 
 app = Flask(__name__)
 
@@ -24,20 +25,45 @@ def post_message_to_group(text):
     """
     Posts a message to the group
     :param text: message to be posted to group
-    :return: status code of the request
+    :return: response object from the post request
     """
     url = baseUrl + botPostMessageUrl + '?token=' + token
     json = {bot_id, text}
     response = requests.post(url, json=json)
-    return response.status_code
+    return response
 
 
-@app.route('/')
+def remind_group():
+    return post_message_to_group('Y\'all taken the trash out yet?')
+
+
+schedule.every().monday.at('17:00').do(remind_group)
+schedule.every().tuesday.at('08:00').do(remind_group)
+schedule.every().thursday.at('17:00').do(remind_group)
+schedule.every().friday.at('08:00').do(remind_group)
+
+
+@app.route('/', methods=['POST'])
 def index():
     """
-    All messages are sent to this URL and processed
+    All messages from the group are sent to this URL, the response structure is:
+    {
+      "attachments": [],
+      "avatar_url": "https://i.groupme.com/123456789",
+      "created_at": 1302623328,
+      "group_id": "1234567890",
+      "id": "1234567890",
+      "name": "John",
+      "sender_id": "12345",
+      "sender_type": "user",
+      "source_guid": "GUID",
+      "system": false,
+      "text": "Hello world ☃☃",
+      "user_id": "1234567890"
+    }
     """
-    return 'Yo, it\'s working!'
+
+    return 200
 
 
 if __name__ == "__main__":
