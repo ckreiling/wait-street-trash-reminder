@@ -1,46 +1,12 @@
 from flask import Flask
 import os
 import requests
-import schedule
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 
 bot_id = os.getenv('BOT_ID', '')  # second variable is default, nothing
 token = os.getenv('USER_TOKEN', '')
-
-"""
-Base URL for Groupme's API
-"""
-baseUrl = 'https://api.groupme.com/v3'
-
-"""
-Post material:
-    - bot_id: ID for the bot
-    - text: text for the bot to send to the group
-"""
-botPostMessageUrl = '/bots/post'
-
-
-def post_message_to_group(text):
-    """
-    Posts a message to the group
-    :param text: message to be posted to group
-    :return: response object from the post request
-    """
-    url = baseUrl + botPostMessageUrl + '?token=' + token
-    json = {bot_id, text}
-    response = requests.post(url, json=json)
-    return response
-
-
-def remind_group():
-    return post_message_to_group('Anyone taken the trash out?')
-
-
-mondayEvening = schedule.every().monday.at('21:00').do(remind_group)
-tuesdayMorning = schedule.every().tuesday.at('12:00').do(remind_group)
-thursdayEvening = schedule.every().thursday.at('21:00').do(remind_group)
-fridayMorning = schedule.every().friday.at('12:00').do(remind_group)
 
 
 @app.route('/', methods=['POST'])
